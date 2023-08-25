@@ -5,6 +5,8 @@ from .models import Feedback
 
 from django.views import View
 from django.views.generic.base import TemplateView
+from django.views.generic import ListView, DetailView
+
 
 class FeedBackView(View):
     def get(self, request):
@@ -39,34 +41,43 @@ class FeedBackUpdateView(View):
 class DoneView(TemplateView):
     template_name = "feedback/done.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        context["name"] = "Ivanov I.I."
+        context["date"] = "26.12.2002"
+        return context
 
-# Create your views here.
-# def index(request):
-#     # form = FeedbackForm()
-#     if request.method == "POST":
-#         form = FeedbackForm(request.POST)
-#         if form.is_valid():
-#             print(form.cleaned_data)
+
+# class ListFeedBack(TemplateView):
+#     template_name = "feedback/list_feedback.html"
 #
-#             form.save()
-#             return HttpResponseRedirect("/done")
-#     else:
-#         form = FeedbackForm()
-#     return render(request, "feedback/feedback.html", context={"form": form})
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['feedbacks'] = Feedback.objects.all()
+#         return context
+
+class ListFeedBack(ListView):
+    template_name = "feedback/list_feedback.html"
+    model = Feedback  # само выберет все данные и передаст в контекст
+    context_object_name = "feedbacks"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # filter_qs = queryset.filter(rating__gt=3) #пример
+        return queryset
 
 
-# Create your views here.
-def update_feedback(request, id_feedback):
-    feed = Feedback.objects.get(id=id_feedback)
-    if request.method == "POST":
-        form = FeedbackForm(request.POST, instance=feed)
-        if form.is_valid():
-            print(form.cleaned_data)
-            form.save()
-            return HttpResponseRedirect("/done")
-    else:
-        form = FeedbackForm(instance=feed)
-    return render(request, "feedback/feedback.html", context={"form": form})
+# class DetailFeedBack(TemplateView):
+#     template_name = "feedback/detail_feedback.html"
+#
+#     def get_context_data(self, **kwargs):
+#         # kwargs.id_feedback
+#         context = super().get_context_data(**kwargs)
+#         context['detail_feedback'] = Feedback.objects.get(id=kwargs["id_feedback"])
+#         return context
 
-# def done(request):
-#     return render(request, "feedback/done.html")
+class DetailFeedBack(DetailView):
+    template_name = "feedback/detail_feedback.html"
+    model = Feedback
+    context_object_name = "detail_feedback"
