@@ -5,10 +5,11 @@
 {% block content %}
     <h2>Список всех отзывов</h2>
     <ul>
-        {% for feedback in feedbacks%}
-        <li><p>Имя: {{feedback.name}}, Фамилия: {{feedback.surname}}, Отзыв: {{feedback.feedback}}, Рейтинг: {{feedback.rating}}</p></li>
-
-        {%endfor%}
+            {% for feedback in feedbacks%}
+            <li>
+                id: {{feedback.pk}}  Имя: {{feedback.name}}, Фамилия: {{feedback.surname}}, Отзыв: {{feedback.feedback}}, Рейтинг: {{feedback.rating}}
+            </li>
+            {%endfor%}
     </ul>
 
 {% endblock %}
