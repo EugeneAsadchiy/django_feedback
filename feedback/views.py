@@ -20,7 +20,7 @@ class FeedBackView(CreateView):
 # class FeedBackView(View):
 #     def get(self, request):
 #         form = FeedbackForm()
-#         return render(request, "feedback/feedback.html", context={"form": form})
+#         return render(request, "feedback/load_file.html", context={"form": form})
 #
 #     def post(self, request):
 #         form = FeedbackForm(request.POST)
@@ -28,12 +28,12 @@ class FeedBackView(CreateView):
 #             print(form.cleaned_data)
 #             form.save()
 #             return HttpResponseRedirect("/done")
-#         return render(request, "feedback/feedback.html", context={"form": form})
+#         return render(request, "feedback/load_file.html", context={"form": form})
 #
 
 # class FeedBackView(FormView):
 #     form_class = FeedbackForm
-#     template_name = 'feedback/feedback.html'
+#     template_name = 'feedback/load_file.html'
 #     success_url = "/done"
 #
 #     def form_valid(self, form):
@@ -50,7 +50,7 @@ class FeedBackUpdateView(UpdateView):
 #     def get(self, request, id_feedback):
 #         feed = Feedback.objects.get(id=id_feedback)
 #         form = FeedbackForm(instance=feed)
-#         return render(request, 'feedback/feedback.html', context={'form': form})
+#         return render(request, 'feedback/load_file.html', context={'form': form})
 #
 #     def post(self, request, id_feedback):
 #         feed = Feedback.objects.get(id=id_feedback)
@@ -59,7 +59,7 @@ class FeedBackUpdateView(UpdateView):
 #             print(form.cleaned_data)
 #             form.save()
 #             return HttpResponseRedirect(f'/done')
-#         return render(request, "feedback/feedback.html", context={"form": form})
+#         return render(request, "feedback/load_file.html", context={"form": form})
 
 
 class DoneView(TemplateView):
