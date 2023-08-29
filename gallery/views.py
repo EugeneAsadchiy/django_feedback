@@ -1,13 +1,40 @@
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import CreateView, ListView
+
+from .forms import GalleryUploadForm
+from django.http import HttpResponseRedirect
+from .models import Gallery
 
 
 # Create your views here.
+# def storage_file(file):
+#     with open(f"gallery_tmp/{file.name}", "wb+") as new_file:
+#         for chunk in file.chunks():
+#             new_file.write(chunk)
+
+class ListGallary(ListView):
+    model = Gallery
+    template_name = 'gallery/list_file.html'
+    context_object_name = "records"
 
 
-class GalleryView(View):
-    def get(self, request):
-        return render(request, "gallery/load_file.html")
+class CreateGalleryView(CreateView):
+    model = Gallery
+    fields = "__all__"
+    template_name = 'gallery/load_file.html'
+    success_url = "/load_image"
 
-    def post(self, request):
-        pass
+# class GalleryView(View):
+#     def get(self, request):
+#         form = GalleryUploadForm()
+#         return render(request, "gallery/load_file.html", {"form": form})
+#
+#     def post(self, request):
+#         form = GalleryUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # storage_file(request.FILES["image"])  #form.cleaned_data["image"] и так и так можно в storage_file
+#             new_image = Gallery(image=form.cleaned_data["image"])
+#             new_image.save()
+#             return HttpResponseRedirect("load_image")
+#         return render(request, "gallery/load_file.html", {"form": form})
